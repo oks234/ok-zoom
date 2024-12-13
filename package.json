@@ -1,5 +1,5 @@
 {
-  "name": "zoom",
+  "name": "ok-zoom",
   "version": "1.0.0",
   "license": "MIT",
   "description": "Zoom Clone using WebRTC and WebSockets",
