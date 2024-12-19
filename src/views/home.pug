@@ -2,20 +2,22 @@ doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     title ok-zoom 
   body
     header
       h1 ok-zoom
     main
-      ul
-      form#nickname
-        input(type="text" placeholder="write a nickname", required)
-        button(type="submit") save nickname
-      form#message
-        input(type="text" placeholder="write a message", required)
-        button(type="submit") send message
+      div#welcome
+        form
+          input(type="text" name="" placeholder="room name" required)
+          button(type="submit") enter room
+      div#room
+        h3
+        ul
+        form
+          input(type="text" name="" placeholder="message" required)
+          button(type="submit") send message
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/app.js")
-    
