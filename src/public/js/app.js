@@ -8,18 +8,18 @@ room.hidden = true;
 
 let roomName;
 
-const addMessage = (message) => {
+function addMessage(message) {
   const ul = room.querySelector("ul");
   const li = document.createElement("li");
   li.innerHTML = message;
   ul.append(li);
-};
+}
 
-function showRoom() {
+function showRoom(roomCount) {
   welcome.hidden = true;
   room.hidden = false;
   const h3 = room.querySelector("h3");
-  h3.innerText = `Room ${roomName}`;
+  h3.innerText = `Room ${roomName} (${roomCount})`;
   const nicknameForm = room.querySelector("form#nickname");
   const messageForm = room.querySelector("form#message");
   nicknameForm.addEventListener("submit", handleNicknameSubmit);
@@ -53,12 +53,18 @@ function handleMessageSubmit(event) {
 }
 
 form.addEventListener("submit", handleRoomSubmit);
-socket.on("welcome", (nickname) => {
+socket.on("welcome", (nickname, newCount) => {
   addMessage(`${nickname} joined!`);
+  roomCount = newCount;
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName} (${roomCount})`;
 });
 
-socket.on("bye", (nickname) => {
+socket.on("bye", (nickname, newCount) => {
   addMessage(`${nickname} left!`);
+  roomCount = newCount;
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName} (${roomCount})`;
 });
 
 socket.on("new_message", addMessage);
