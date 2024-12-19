@@ -9,20 +9,9 @@ html(lang="en")
     header
       h1 ok-zoom
     main
-      div#welcome
-        form
-          input(type="text" name="" placeholder="room name" required)
-          button(type="submit") enter room
-        h4 Open Rooms:
-        ul
-      div#room
-        h3
-        ul
-        form#nickname
-          input(type="text" name="" placeholder="nickname" required)
-          button(type="submit") save nickname
-        form#message
-          input(type="text" name="" placeholder="message" required)
-          button(type="submit") send message
+      video#myFace(autoplay playsinline width=400 height=400)
+      button#mute Mute
+      button#camera Turn Camera OFf
+      select#cameras
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/app.js")
