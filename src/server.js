@@ -12,8 +12,13 @@ app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
 const handleListen = () => console.log(`Listening on http://localhost:${PORT}`);
+function handleConnection (socket) {
+  console.log(socket);
+}
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+
+wss.on('connection', handleConnection)
 
 server.listen(PORT, handleListen);
