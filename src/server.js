@@ -24,13 +24,21 @@ function onSocketClose() {
 
 wss.on("connection", (socket) => {
   sockets.push(socket);
+  socket["nickname"] = "unknown";
   console.log("Connected to Browser ✅");
   socket.on("close", onSocketClose);
-  socket.on("message", (event) => {
-    const message = event.toString();
-    sockets.forEach((eachSocket) => {
-      eachSocket.send(message);
-    });
+  socket.on("message", (rawData) => {
+    const message = JSON.parse(rawData.toString());
+    switch (message.type) {
+      case "new_message":
+        sockets.forEach((eachSocket) => {
+          eachSocket.send(`${socket.nickname}: ${message.payload}`);
+        });
+        break;
+      case "nickname":
+        socket["nickname"] = message.payload;
+        break;
+    }
   });
   socket.send("hello!!!");
 });
