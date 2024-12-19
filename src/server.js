@@ -1,5 +1,5 @@
 import http from "http";
-import WebSocket from "ws";
+import SocketIO from "socket.io";
 import express from "express";
 
 const PORT = 4000;
@@ -13,7 +13,14 @@ app.get("/*", (_, res) => res.redirect("/"));
 
 const handleListen = () => console.log(`Listening on http://localhost:${PORT}`);
 
-const server = http.createServer(app);
+const httpServer = http.createServer(app);
+const wsServer = SocketIO(httpServer);
+
+wsServer.on("connection", (socket) => {
+  console.log(socket);
+})
+
+/*
 const wss = new WebSocket.Server({ server });
 
 const sockets = [];
@@ -42,5 +49,6 @@ wss.on("connection", (socket) => {
   });
   socket.send("hello!!!");
 });
+*/
 
-server.listen(PORT, handleListen);
+httpServer.listen(PORT, handleListen);
