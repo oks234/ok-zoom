@@ -14,9 +14,11 @@ html(lang="en")
           input(type="text" placeholder="room name")
           button Enter room
       #call
-        video#myFace(autoplay playsinline width=400 height=400)
-        button#mute Mute
-        button#camera Turn Camera OFf
-        select#cameras
+        #myStream
+          video#myFace(autoplay playsinline width=400 height=400)
+          button#mute Mute
+          button#camera Turn Camera OFf
+          select#cameras
+          video#peerFace(autoplay playsinline width=400 height=400)
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/app.js")
