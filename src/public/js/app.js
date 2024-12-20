@@ -83,6 +83,13 @@ function handleCameraBtnClick() {
 
 async function handleCameraChange() {
   await getMedia(camerasSelect.value);
+  if (myPeerConnection) {
+    const videoTrack = myStream.getVideoTracks()[0];
+    const videoSender = myPeerConnection
+      .getSenders()
+      .find((sender) => sender.track.kind === "video");
+    videoSender.replaceTrack(videoTrack);
+  }
 }
 
 muteBtn.addEventListener("click", handleMuteBtnClick);
@@ -145,7 +152,24 @@ socket.on("ice", (ice) => {
 // RTC
 
 function makeConnection() {
-  myPeerConnection = new RTCPeerConnection();
+  myPeerConnection = new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: [
+          "stun:stun.l.google.com:19302",
+          "stun:stun.l.google.com:5349",
+          "stun:stun1.l.google.com:3478",
+          "stun:stun1.l.google.com:5349",
+          "stun:stun2.l.google.com:19302",
+          "stun:stun2.l.google.com:5349",
+          "stun:stun3.l.google.com:3478",
+          "stun:stun3.l.google.com:5349",
+          "stun:stun4.l.google.com:19302",
+          "stun:stun4.l.google.com:5349",
+        ],
+      },
+    ],
+  });
   myPeerConnection.addEventListener("icecandidate", handleIce);
   myPeerConnection.addEventListener("track", handleTrack);
   myStream
