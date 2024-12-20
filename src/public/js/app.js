@@ -14,6 +14,7 @@ let myStream;
 let muted = false;
 let cameraOff = false;
 let roomName;
+let myPeerConnection;
 
 async function getCameras() {
   try {
@@ -29,7 +30,6 @@ async function getCameras() {
       }
       camerasSelect.append(option);
     });
-    console.log(cameras);
   } catch (e) {
     console.log(e);
   }
@@ -104,14 +104,33 @@ function handleWelcomeSubmit() {
 
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
-function startMedia() {
+async function startMedia() {
   welcome.hidden = true;
   call.hidden = false;
-  getMedia();
+  await getMedia();
+  makeConnection();
 }
 
 // socket
 
-socket.on("welcome", () => {
-  console.log("someone joined");
+socket.on("welcome", async () => {
+  // console.log("someone joined");
+  const offer = await myPeerConnection.createOffer();
+  myPeerConnection.setLocalDescription(offer);
+  console.log("send offer");
+  socket.emit("offer", offer, roomName);
+  // console.log(offer);
 });
+
+socket.on("offer", (offer) => {
+  console.log(offer);
+});
+
+// RTC
+
+function makeConnection() {
+  myPeerConnection = new RTCPeerConnection();
+  myStream
+    .getTracks()
+    .forEach((track) => myPeerConnection.addTrack(track, myStream));
+}
