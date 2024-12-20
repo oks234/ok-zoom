@@ -4,14 +4,23 @@
   "license": "MIT",
   "description": "Zoom Clone using WebRTC and WebSockets",
   "scripts": {
-    "dev": "nodemon"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack --mode=development --watch",
+    "build:server": "babel src -d dist --ignore src/public",
+    "build:assets": "webpack --mode=production",
+    "build": "npm run build:server && npm run build:assets",
+    "start": "node dist/server.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.0",
     "@babel/node": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
-    "nodemon": "^3.1.7"
+    "@flydotio/dockerfile": "^0.5.9",
+    "babel-loader": "^9.2.1",
+    "nodemon": "^3.1.7",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "express": "^4.21.2",

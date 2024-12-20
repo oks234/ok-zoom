@@ -102,13 +102,13 @@ const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
 
 async function initCall() {
-  welcome.hidden = true;
-  call.hidden = false;
   await getMedia();
   makeConnection();
+  welcome.hidden = true;
+  call.hidden = false;
 }
 
-async function handleWelcomeSubmit() {
+async function handleWelcomeSubmit(event) {
   event.preventDefault();
   const input = welcomeForm.querySelector("input");
   roomName = input.value;
