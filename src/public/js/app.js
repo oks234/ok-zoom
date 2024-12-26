@@ -1,3 +1,5 @@
+import "../css/main.css";
+
 const socket = io();
 
 // call
@@ -42,7 +44,7 @@ async function getMedia(deviceId) {
   };
   const cameraConstrains = {
     audio: true,
-    video: { deviceId: { exact: deviceId } },
+    video: { deviceId: { exact: deviceId }, facingMode: true },
   };
   try {
     myStream = await navigator.mediaDevices.getUserMedia(

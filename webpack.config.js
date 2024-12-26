@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: { app: "./src/public/js/app.js" },
@@ -7,6 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, "public"),
     clean: true,
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/styles.css",
+    }),
+  ],
   module: {
     rules: [
       {
@@ -18,6 +24,10 @@ module.exports = {
             presets: [["@babel/preset-env", { targets: "defaults" }]],
           },
         },
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader" /* 로더 설정 */],
       },
     ],
   },

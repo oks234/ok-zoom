@@ -3,7 +3,9 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    //- link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    link(rel="stylesheet" href="/public/css/styles.css")
+    link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet")
     title ok-zoom 
   body
     header
@@ -15,10 +17,16 @@ html(lang="en")
           button Enter room
       #call
         #myStream
-          video#myFace(autoplay playsinline width=400 height=400)
+          div.faces
+            div.face
+              p Me
+              video#myFace(autoplay playsinline width=400 height=400)
+            div.face
+              p Peer
+              video#peerFace(autoplay playsinline width=400 height=400)
           button#mute Mute
-          button#camera Turn Camera OFf
+          button#camera.camera-btn Turn Camera OFf
+            span.material-symbols-outlined videocam
           select#cameras
-          video#peerFace(autoplay playsinline width=400 height=400)
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/app.js")
