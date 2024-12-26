@@ -1,32 +1,42 @@
+include ../components/form
+
 doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    //- link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     link(rel="stylesheet" href="/public/css/styles.css")
     link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet")
     title ok-zoom 
   body
-    header
+    header(class="flex items-center justify-center uppercase my-6")
       h1 ok-zoom
     main
-      #welcome 
+      #welcome(class="container max-w-lg")
+        h2(class="my-4") Entrance
         form
-          input(type="text" placeholder="room name")
-          button Enter room
-      #call
-        #myStream
-          div.faces
-            div.face
-              p Me
-              video#myFace(autoplay playsinline width=400 height=400)
-            div.face
-              p Peer
-              video#peerFace(autoplay playsinline width=400 height=400)
-          button#mute Mute
-          button#camera.camera-btn Turn Camera OFf
-            span.material-symbols-outlined videocam
-          select#cameras
+          div(class="flex gap-x-6 items-stretch")
+            div
+              label.sr-only(for="room-name") Room name
+              +input(type="text" id="room-name" placeholder="room name")
+            +button('solid') Enter room
+      #call(class="container")
+        h2(class="my-4") Meeting
+        div(class="grid gap-x-6 gap-y-8 items-start sm:grid-cols-2")
+          div(class="grid gap-y-6")
+            video#myFace(autoplay playsinline class="aspect-video w-full bg-black")
+            h4(class="text-center") Me
+            div(class="grid grid-cols-1 gap-y-8")
+              div(class="flex items-center justify-center gap-6")
+                +button('outline')(id='mute' class='group')
+                  span.material-symbols-outlined(class="inline-block group-[.muted]:hidden") mic
+                  span.material-symbols-outlined(class="!hidden group-[.muted]:!inline-block") mic_off
+                +button('outline')(id='camera' class='group')
+                  span.material-symbols-outlined(class="inline-block group-[.off]:hidden") videocam
+                  span.material-symbols-outlined(class="!hidden group-[.off]:!inline-block") videocam_off
+            +select()(id="cameras")
+          div(class="grid gap-y-6")
+            video#peerFace(autoplay playsinline class="aspect-video w-full bg-black")
+            h4(class="text-center") Peer
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/app.js")

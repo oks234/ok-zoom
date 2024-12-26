@@ -40,11 +40,22 @@ async function getCameras() {
 async function getMedia(deviceId) {
   const initialConstrains = {
     audio: true,
-    video: { facingMode: true },
+    video: {
+      facingMode: true,
+      width: { min: 640, ideal: 1920, max: 1920 },
+      height: { min: 400, ideal: 1080 },
+      aspectRatio: 1.777777778,
+    },
   };
   const cameraConstrains = {
     audio: true,
-    video: { deviceId: { exact: deviceId }, facingMode: true },
+    video: {
+      deviceId: { exact: deviceId },
+      facingMode: true,
+      width: { min: 640, ideal: 1920, max: 1920 },
+      height: { min: 400, ideal: 1080 },
+      aspectRatio: 1.777777778,
+    },
   };
   try {
     myStream = await navigator.mediaDevices.getUserMedia(
@@ -62,10 +73,10 @@ function handleMuteBtnClick() {
     .getAudioTracks()
     .forEach((track) => (track.enabled = !track.enabled));
   if (!muted) {
-    muteBtn.innerText = "Unmute";
+    muteBtn.classList.add("muted");
     muted = true;
   } else {
-    muteBtn.innerText = "Mute";
+    muteBtn.classList.remove("muted");
     muted = false;
   }
 }
@@ -75,10 +86,10 @@ function handleCameraBtnClick() {
     .getVideoTracks()
     .forEach((track) => (track.enabled = !track.enabled));
   if (!cameraOff) {
-    cameraBtn.innerText = "Turn Camera OFf";
+    cameraBtn.classList.add("off");
     cameraOff = true;
   } else {
-    cameraBtn.innerText = "Turn Camera On";
+    cameraBtn.classList.remove("off");
     cameraOff = false;
   }
 }
@@ -87,6 +98,9 @@ async function handleCameraChange() {
   await getMedia(camerasSelect.value);
   if (myPeerConnection) {
     const videoTrack = myStream.getVideoTracks()[0];
+    const audioTrack = myStream.getAudioTracks()[0];
+    videoTrack.enabled = !cameraBtn.classList.contains("off");
+    audioTrack.enabled = !muteBtn.classList.contains("muted");
     const videoSender = myPeerConnection
       .getSenders()
       .find((sender) => sender.track.kind === "video");
@@ -124,12 +138,10 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 // socket
 
 socket.on("welcome", async () => {
-  // console.log("someone joined");
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   console.log("send offer");
   socket.emit("offer", offer, roomName);
-  // console.log(offer);
 });
 
 socket.on("offer", async (offer) => {

@@ -10,7 +10,7 @@ Zoom Clone using NodeJS, WebRTC and WebSockets
 
 ### features
 
-- Improve the CSS.
+- ~~Improve the CSS.~~
 - Make a Chat using Data Channels.
 - When a peer leaves the room, remove the stream.
 - Create room
